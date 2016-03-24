@@ -1,0 +1,25 @@
+{
+  "name": "datum.js",
+  "version": "0.0.1",
+  "description": "Compile vue directive in HTML into raw data.",
+  "main": "index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sya-Tech/datum.js.git"
+  },
+  "keywords": [
+    "vue",
+    "server",
+    "render",
+    "datum",
+    "data"
+  ],
+  "author": "Sya-Tech",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Sya-Tech/datum.js/issues"
+  },
+  "homepage": "https://github.com/Sya-Tech/datum.js#readme"
+}
