@@ -4,7 +4,10 @@
   "description": "Compile vue directive in HTML into raw data.",
   "main": "index.js",
   "scripts": {
-    "test": "karma-start"
+    "test": "karma-start",
+    "start": "npm run dev & npm run test",
+    "dev": "webpack --watch",
+    "production": "webpack -p --config ./webpack.config.production.js"
   },
   "repository": {
     "type": "git",
