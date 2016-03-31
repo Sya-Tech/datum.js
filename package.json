@@ -36,6 +36,7 @@
     "karma-coverage": "^0.5.5",
     "karma-eslint": "^2.1.0",
     "karma-jasmine": "^0.3.8",
+    "vue": "^1.0.20",
     "webpack": "^1.12.14"
   }
 }
