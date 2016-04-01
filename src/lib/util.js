@@ -19,7 +19,6 @@ function DOMTreeWalker(DOMNode, callback, scope = [], namespace = '') {
 // Get scope of current node.
 function getScope(node, scope, namespace) {
     const expression = node.getAttribute('v-for')
-    console.log(expression)
     const inMatch = expression ? expression.match(/(.*) (?:in|of) (.*)/) : null
     if (inMatch) {
         return {
