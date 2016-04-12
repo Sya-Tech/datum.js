@@ -1,6 +1,7 @@
 import babel from 'rollup-plugin-babel'
 import npm from 'rollup-plugin-npm'
 import commonjs from 'rollup-plugin-commonjs'
+import replace from 'rollup-plugin-replace'
 
 export default {
     entry: 'test/main.js',
@@ -14,6 +15,9 @@ export default {
         }),
         commonjs({
             include: 'node_modules/**'
+        }),
+        replace({
+            'process.env.NODE_ENV': "'production'"
         })
     ]
-};
+}
