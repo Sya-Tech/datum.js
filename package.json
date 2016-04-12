@@ -8,12 +8,12 @@
     "test": "npm run test:build && npm run test:run",
     "test:build": "rollup -c rollup.test.config.js",
     "test:run": "karma start",
-    "dev": "rollup -c rollup.config.js",
+    "dev": "rollup -c",
     "production": "rollup -c rollup.production.config.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Sya-Tech/datum.js.git"
+    "url": "git+https://github.com/SyaOS/datum.js.git"
   },
   "keywords": [
     "vue",
