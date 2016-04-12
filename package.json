@@ -4,10 +4,12 @@
   "description": "Compile vue directive in HTML into raw data.",
   "main": "index.js",
   "scripts": {
-    "test": "karma-start",
     "start": "npm run dev & npm run test",
+    "test": "npm run test:build && npm run test:run",
+    "test:build": "rollup -c rollup.test.config.js",
+    "test:run": "karma start",
     "dev": "rollup -c rollup.config.js",
-    "production": "webpack -p --config ./webpack.config.production.js"
+    "production": "rollup -c rollup.production.config.js"
   },
   "repository": {
     "type": "git",
@@ -35,9 +37,11 @@
     "karma-coverage": "^0.5.5",
     "karma-eslint": "^2.1.0",
     "karma-jasmine": "^0.3.8",
+    "rollup": "^0.25.8",
     "rollup-plugin-babel": "^2.4.0",
     "rollup-plugin-commonjs": "^2.2.1",
     "rollup-plugin-npm": "^1.4.0",
+    "rollup-plugin-uglify": "^0.3.1",
     "vue": "^1.0.20"
   },
   "dependencies": {}

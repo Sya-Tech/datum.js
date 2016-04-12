@@ -15,8 +15,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      './test/**/*.js',
-      './src/**/*.js'
+      './test/bundle.js',
     ],
 
 
@@ -31,7 +30,6 @@ module.exports = function(config) {
     preprocessors: {
       './src/**/*.js': ['coverage', 'eslint']
     },
-
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
@@ -73,7 +71,7 @@ module.exports = function(config) {
       type:'html',
       dir:'./test/coverage/'
     },
-    
+
     eslint: {
       stopOnError: false,
       stopOnWarning: true,
