@@ -10,7 +10,7 @@ $ npm i
 $ npm start
 
 // Test
-$ npm run test
+$ npm test
 
 // Production
 $ npm run production
