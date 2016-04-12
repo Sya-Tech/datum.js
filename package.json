@@ -6,7 +6,7 @@
   "scripts": {
     "test": "karma-start",
     "start": "npm run dev & npm run test",
-    "dev": "webpack --watch",
+    "dev": "rollup -c rollup.config.js",
     "production": "webpack -p --config ./webpack.config.production.js"
   },
   "repository": {
@@ -28,15 +28,17 @@
   "homepage": "https://github.com/Sya-Tech/datum.js#readme",
   "devDependencies": {
     "babel-core": "^6.7.4",
-    "babel-loader": "^6.2.4",
-    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-es2015-rollup": "^1.1.1",
     "jasmine-core": "^2.4.1",
     "karma": "^0.13.22",
     "karma-chrome-launcher": "^0.2.3",
     "karma-coverage": "^0.5.5",
     "karma-eslint": "^2.1.0",
     "karma-jasmine": "^0.3.8",
-    "vue": "^1.0.20",
-    "webpack": "^1.12.14"
-  }
+    "rollup-plugin-babel": "^2.4.0",
+    "rollup-plugin-commonjs": "^2.2.1",
+    "rollup-plugin-npm": "^1.4.0",
+    "vue": "^1.0.20"
+  },
+  "dependencies": {}
 }

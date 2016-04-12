@@ -1,3 +1,1 @@
-function forTest() {
-    return true
-}
+import './lib/util.js'

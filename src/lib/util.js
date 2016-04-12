@@ -1,3 +1,4 @@
+import Vue from 'vue'
 // Get pure DOM element in vm.
 function getDOMNode(vm) {
     return vm.$el
@@ -33,8 +34,17 @@ function getScope(node, scope, namespace) {
     }
 }
 
-// function getDirectiveTextExpression(vm) {
-//     DOMTreeWalker(getDOMNode(vm), (node, scope,namespace) => {
-//         const expression = node.getAttribute('v-text')
-//     })
-// }
+function getDirectiveTextExpression(vm) {
+    DOMTreeWalker(getDOMNode(vm), (node, scope,namespace) => {
+        const expression = node.getAttribute('v-text')
+    })
+}
+
+const vm = new Vue({
+    template: `<div v-text="text"></div>`,
+    data: {
+        text: '233'
+    }
+})
+
+console.log(vm.$el)
