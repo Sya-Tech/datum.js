@@ -8,6 +8,7 @@ export default {
     entry: 'src/index.js',
     dest: 'index.js',
     format: 'umd',
+    moduleName: 'datum',
     plugins: [
         babel(),
         npm({
