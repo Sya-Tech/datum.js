@@ -11,7 +11,7 @@ export default {
     format: 'umd',
     moduleName: 'datum',
     plugins: [
-        babel(),
+        babel({presets: ['es2015-rollup']}),
         npm({
             jsnext: true,
             main: true

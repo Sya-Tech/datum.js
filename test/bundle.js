@@ -299,7 +299,7 @@
       */warnExpressionErrors:true, /**
       * Whether to allow devtools inspection.
       * Disabled by default in production builds.
-      */devtools:process.env.NODE_ENV!=='production', /**
+      */devtools:'production'!=='production', /**
       * Internal flag to indicate the delimiters have been
       * changed.
       *
@@ -317,7 +317,7 @@
                     * the text parser to re-compile the regular expressions.
                     *
                     * @type {Array<String>}
-                    */get:function get(){return delimiters;},set:function set(val){delimiters=val;compileRegex();},configurable:true,enumerable:true},unsafeDelimiters:{get:function get(){return unsafeDelimiters;},set:function set(val){unsafeDelimiters=val;compileRegex();},configurable:true,enumerable:true}});var warn=undefined;if(process.env.NODE_ENV!=='production'){(function(){var hasConsole=typeof console!=='undefined';warn=function warn(msg,e){if(hasConsole&&(!config.silent||config.debug)){console.warn('[Vue warn]: '+msg); /* istanbul ignore if */if(config.debug){if(e){throw e;}else {console.warn(new Error('Warning Stack Trace').stack);}}}};})();} /**
+                    */get:function get(){return delimiters;},set:function set(val){delimiters=val;compileRegex();},configurable:true,enumerable:true},unsafeDelimiters:{get:function get(){return unsafeDelimiters;},set:function set(val){unsafeDelimiters=val;compileRegex();},configurable:true,enumerable:true}});var warn=undefined;if('production'!=='production'){} /**
     * Append with transition.
     *
     * @param {Element} el
@@ -358,7 +358,7 @@
     *
     * @param {String|Element} el
     * @return {Element}
-    */function query(el){if(typeof el==='string'){var selector=el;el=document.querySelector(el);if(!el){process.env.NODE_ENV!=='production'&&warn('Cannot find element: '+selector);}}return el;} /**
+    */function query(el){if(typeof el==='string'){var selector=el;el=document.querySelector(el);if(!el){'production'!=='production'&&warn('Cannot find element: '+selector);}}return el;} /**
     * Check if a node is in the document.
     * Note: document.documentElement.contains should work here
     * but always returns false for comment nodes in phantomjs,
@@ -512,17 +512,14 @@
     *
     * @param {Element} el
     * @return {String}
-    */function getOuterHTML(el){if(el.outerHTML){return el.outerHTML;}else {var container=document.createElement('div');container.appendChild(el.cloneNode(true));return container.innerHTML;}}var commonTagRE=/^(div|p|span|img|a|b|i|br|ul|ol|li|h1|h2|h3|h4|h5|h6|code|pre|table|th|td|tr|form|label|input|select|option|nav|article|section|header|footer)$/i;var reservedTagRE=/^(slot|partial|component)$/i;var isUnknownElement=undefined;if(process.env.NODE_ENV!=='production'){isUnknownElement=function isUnknownElement(el,tag){if(tag.indexOf('-')>-1){ // http://stackoverflow.com/a/28210364/1070244
-   return el.constructor===window.HTMLUnknownElement||el.constructor===window.HTMLElement;}else {return (/HTMLUnknownElement/.test(el.toString())&& // Chrome returns unknown for several HTML5 elements.
-   // https://code.google.com/p/chromium/issues/detail?id=540526
-   !/^(data|time|rtc|rb)$/.test(tag));}};} /**
+    */function getOuterHTML(el){if(el.outerHTML){return el.outerHTML;}else {var container=document.createElement('div');container.appendChild(el.cloneNode(true));return container.innerHTML;}}var commonTagRE=/^(div|p|span|img|a|b|i|br|ul|ol|li|h1|h2|h3|h4|h5|h6|code|pre|table|th|td|tr|form|label|input|select|option|nav|article|section|header|footer)$/i;var reservedTagRE=/^(slot|partial|component)$/i;var isUnknownElement=undefined;if('production'!=='production'){} /**
     * Check if an element is a component, if yes return its
     * component id.
     *
     * @param {Element} el
     * @param {Object} options
     * @return {Object|undefined}
-    */function checkComponentAttr(el,options){var tag=el.tagName.toLowerCase();var hasAttrs=el.hasAttributes();if(!commonTagRE.test(tag)&&!reservedTagRE.test(tag)){if(resolveAsset(options,'components',tag)){return {id:tag};}else {var is=hasAttrs&&getIsBinding(el);if(is){return is;}else if(process.env.NODE_ENV!=='production'){var expectedTag=options._componentNameMap&&options._componentNameMap[tag];if(expectedTag){warn('Unknown custom element: <'+tag+'> - '+'did you mean <'+expectedTag+'>? '+'HTML is case-insensitive, remember to use kebab-case in templates.');}else if(isUnknownElement(el,tag)){warn('Unknown custom element: <'+tag+'> - did you '+'register the component correctly? For recursive components, '+'make sure to provide the "name" option.');}}}}else if(hasAttrs){return getIsBinding(el);}} /**
+    */function checkComponentAttr(el,options){var tag=el.tagName.toLowerCase();var hasAttrs=el.hasAttributes();if(!commonTagRE.test(tag)&&!reservedTagRE.test(tag)){if(resolveAsset(options,'components',tag)){return {id:tag};}else {var is=hasAttrs&&getIsBinding(el);if(is){return is;}else if('production'!=='production'){}}}else if(hasAttrs){return getIsBinding(el);}} /**
     * Get "is" binding from an element.
     *
     * @param {Element} el
@@ -543,7 +540,7 @@
     */function mergeData(to,from){var key,toVal,fromVal;for(key in from){toVal=to[key];fromVal=from[key];if(!hasOwn(to,key)){set(to,key,fromVal);}else if(isObject(toVal)&&isObject(fromVal)){mergeData(toVal,fromVal);}}return to;} /**
     * Data
     */strats.data=function(parentVal,childVal,vm){if(!vm){ // in a Vue.extend merge, both should be functions
-   if(!childVal){return parentVal;}if(typeof childVal!=='function'){process.env.NODE_ENV!=='production'&&warn('The "data" option should be a function '+'that returns a per-instance value in component '+'definitions.');return parentVal;}if(!parentVal){return childVal;} // when parentVal & childVal are both present,
+   if(!childVal){return parentVal;}if(typeof childVal!=='function'){'production'!=='production'&&warn('The "data" option should be a function '+'that returns a per-instance value in component '+'definitions.');return parentVal;}if(!parentVal){return childVal;} // when parentVal & childVal are both present,
    // we need to return a function that returns the
    // merged result of both functions... no need to
    // check if parentVal is a function here because
@@ -551,12 +548,12 @@
    return function mergedDataFn(){return mergeData(childVal.call(this),parentVal.call(this));};}else if(parentVal||childVal){return function mergedInstanceDataFn(){ // instance merge
    var instanceData=typeof childVal==='function'?childVal.call(vm):childVal;var defaultData=typeof parentVal==='function'?parentVal.call(vm):undefined;if(instanceData){return mergeData(instanceData,defaultData);}else {return defaultData;}};}}; /**
     * El
-    */strats.el=function(parentVal,childVal,vm){if(!vm&&childVal&&typeof childVal!=='function'){process.env.NODE_ENV!=='production'&&warn('The "el" option should be a function '+'that returns a per-instance value in component '+'definitions.');return;}var ret=childVal||parentVal; // invoke the element factory if this is instance merge
+    */strats.el=function(parentVal,childVal,vm){if(!vm&&childVal&&typeof childVal!=='function'){'production'!=='production'&&warn('The "el" option should be a function '+'that returns a per-instance value in component '+'definitions.');return;}var ret=childVal||parentVal; // invoke the element factory if this is instance merge
    return vm&&typeof ret==='function'?ret.call(vm):ret;}; /**
     * Hooks and param attributes are merged as arrays.
     */strats.init=strats.created=strats.ready=strats.attached=strats.detached=strats.beforeCompile=strats.compiled=strats.beforeDestroy=strats.destroyed=strats.activate=function(parentVal,childVal){return childVal?parentVal?parentVal.concat(childVal):isArray(childVal)?childVal:[childVal]:parentVal;}; /**
     * 0.11 deprecation warning
-    */strats.paramAttributes=function(){ /* istanbul ignore next */process.env.NODE_ENV!=='production'&&warn('"paramAttributes" option has been deprecated in 0.12. '+'Use "props" instead.');}; /**
+    */strats.paramAttributes=function(){ /* istanbul ignore next */'production'!=='production'&&warn('"paramAttributes" option has been deprecated in 0.12. '+'Use "props" instead.');}; /**
     * Assets
     *
     * When a vm is present (instance creation), we need to do
@@ -576,9 +573,9 @@
     * constructors.
     *
     * @param {Object} options
-    */function guardComponents(options){if(options.components){var components=options.components=guardArrayAssets(options.components);var ids=Object.keys(components);var def;if(process.env.NODE_ENV!=='production'){var map=options._componentNameMap={};}for(var i=0,l=ids.length;i<l;i++){var key=ids[i];if(commonTagRE.test(key)||reservedTagRE.test(key)){process.env.NODE_ENV!=='production'&&warn('Do not use built-in or reserved HTML elements as component '+'id: '+key);continue;} // record a all lowercase <-> kebab-case mapping for
+    */function guardComponents(options){if(options.components){var components=options.components=guardArrayAssets(options.components);var ids=Object.keys(components);var def;if('production'!=='production'){}for(var i=0,l=ids.length;i<l;i++){var key=ids[i];if(commonTagRE.test(key)||reservedTagRE.test(key)){'production'!=='production'&&warn('Do not use built-in or reserved HTML elements as component '+'id: '+key);continue;} // record a all lowercase <-> kebab-case mapping for
    // possible custom element case error warning
-   if(process.env.NODE_ENV!=='production'){map[key.replace(/-/g,'').toLowerCase()]=hyphenate(key);}def=components[key];if(isPlainObject(def)){components[key]=Vue.extend(def);}}}} /**
+   if('production'!=='production'){}def=components[key];if(isPlainObject(def)){components[key]=Vue.extend(def);}}}} /**
     * Ensure all props option syntax are normalized into the
     * Object-based format.
     *
@@ -589,7 +586,7 @@
     *
     * @param {Object|Array} assets
     * @return {Object}
-    */function guardArrayAssets(assets){if(isArray(assets)){var res={};var i=assets.length;var asset;while(i--){asset=assets[i];var id=typeof asset==='function'?asset.options&&asset.options.name||asset.id:asset.name||asset.id;if(!id){process.env.NODE_ENV!=='production'&&warn('Array-syntax assets must provide a "name" or "id" field.');}else {res[id]=asset;}}return res;}return assets;} /**
+    */function guardArrayAssets(assets){if(isArray(assets)){var res={};var i=assets.length;var asset;while(i--){asset=assets[i];var id=typeof asset==='function'?asset.options&&asset.options.name||asset.id:asset.name||asset.id;if(!id){'production'!=='production'&&warn('Array-syntax assets must provide a "name" or "id" field.');}else {res[id]=asset;}}return res;}return assets;} /**
     * Merge two option objects into a new one.
     * Core utility used in both instantiation and inheritance.
     *
@@ -610,7 +607,7 @@
    assets[camelizedId=camelize(id)]|| // Pascal Case ID
    assets[camelizedId.charAt(0).toUpperCase()+camelizedId.slice(1)];} /**
     * Assert asset exists
-    */function assertAsset(val,type,id){if(!val){process.env.NODE_ENV!=='production'&&warn('Failed to resolve '+type+': '+id);}}var uid$1=0; /**
+    */function assertAsset(val,type,id){if(!val){'production'!=='production'&&warn('Failed to resolve '+type+': '+id);}}var uid$1=0; /**
     * A dep is an observable that can have multiple
     * directives subscribing to it.
     *
@@ -823,13 +820,13 @@
     * @param {String} path
     */function getPath(obj,path){return parseExpression(path).get(obj);} /**
     * Warn against setting non-existent root path on a vm.
-    */var warnNonExistent;if(process.env.NODE_ENV!=='production'){warnNonExistent=function warnNonExistent(path){warn('You are setting a non-existent path "'+path.raw+'" '+'on a vm instance. Consider pre-initializing the property '+'with the "data" option for more reliable reactivity '+'and better performance.');};} /**
+    */var warnNonExistent;if('production'!=='production'){} /**
     * Set on an object from a path
     *
     * @param {Object} obj
     * @param {String | Array} path
     * @param {*} val
-    */function setPath(obj,path,val){var original=obj;if(typeof path==='string'){path=parse(path);}if(!path||!isObject(obj)){return false;}var last,key;for(var i=0,l=path.length;i<l;i++){last=obj;key=path[i];if(key.charAt(0)==='*'){key=parseExpression(key.slice(1)).get.call(original,original);}if(i<l-1){obj=obj[key];if(!isObject(obj)){obj={};if(process.env.NODE_ENV!=='production'&&last._isVue){warnNonExistent(path);}set(last,key,obj);}}else {if(isArray(obj)){obj.$set(key,val);}else if(key in obj){obj[key]=val;}else {if(process.env.NODE_ENV!=='production'&&obj._isVue){warnNonExistent(path);}set(obj,key,val);}}}return true;}var path=Object.freeze({parsePath:parsePath,getPath:getPath,setPath:setPath});var expressionCache=new Cache(1000);var allowedKeywords='Math,Date,this,true,false,null,undefined,Infinity,NaN,'+'isNaN,isFinite,decodeURI,decodeURIComponent,encodeURI,'+'encodeURIComponent,parseInt,parseFloat';var allowedKeywordsRE=new RegExp('^('+allowedKeywords.replace(/,/g,'\\b|')+'\\b)'); // keywords that don't make sense inside expressions
+    */function setPath(obj,path,val){var original=obj;if(typeof path==='string'){path=parse(path);}if(!path||!isObject(obj)){return false;}var last,key;for(var i=0,l=path.length;i<l;i++){last=obj;key=path[i];if(key.charAt(0)==='*'){key=parseExpression(key.slice(1)).get.call(original,original);}if(i<l-1){obj=obj[key];if(!isObject(obj)){obj={};if('production'!=='production'&&last._isVue){}set(last,key,obj);}}else {if(isArray(obj)){obj.$set(key,val);}else if(key in obj){obj[key]=val;}else {if('production'!=='production'&&obj._isVue){}set(obj,key,val);}}}return true;}var path=Object.freeze({parsePath:parsePath,getPath:getPath,setPath:setPath});var expressionCache=new Cache(1000);var allowedKeywords='Math,Date,this,true,false,null,undefined,Infinity,NaN,'+'isNaN,isFinite,decodeURI,decodeURIComponent,encodeURI,'+'encodeURIComponent,parseInt,parseFloat';var allowedKeywordsRE=new RegExp('^('+allowedKeywords.replace(/,/g,'\\b|')+'\\b)'); // keywords that don't make sense inside expressions
    var improperKeywords='break,case,class,catch,const,continue,debugger,default,'+'delete,do,else,export,extends,finally,for,function,if,'+'import,in,instanceof,let,return,super,switch,throw,try,'+'var,while,with,yield,enum,await,implements,package,'+'protected,static,interface,private,public';var improperKeywordsRE=new RegExp('^('+improperKeywords.replace(/,/g,'\\b|')+'\\b)');var wsRE=/\s/g;var newlineRE=/\n/g;var saveRE=/[\{,]\s*[\w\$_]+\s*:|('(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*"|`(?:[^`\\]|\\.)*\$\{|\}(?:[^`\\]|\\.)*`|`(?:[^`\\]|\\.)*`)|new |typeof |void /g;var restoreRE=/"(\d+)"/g;var pathTestRE=/^[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*|\['.*?'\]|\[".*?"\]|\[\d+\]|\[[A-Za-z_$][\w$]*\])*$/;var identRE=/[^\w$\.](?:[A-Za-z_$][\w$]*)/g;var booleanLiteralRE=/^(?:true|false)$/; /**
     * Save / Rewrite / Restore
     *
@@ -868,7 +865,7 @@
     *
     * @param {String} exp
     * @return {Function}
-    */function compileGetter(exp){if(improperKeywordsRE.test(exp)){process.env.NODE_ENV!=='production'&&warn('Avoid using reserved keywords in expression: '+exp);} // reset state
+    */function compileGetter(exp){if(improperKeywordsRE.test(exp)){'production'!=='production'&&warn('Avoid using reserved keywords in expression: '+exp);} // reset state
    saved.length=0; // save strings and object literal keys
    var body=exp.replace(saveRE,save).replace(wsRE,''); // rewrite all paths
    // pad 1 space here becaue the regex matches 1 extra char
@@ -880,12 +877,12 @@
     *
     * @param {String} body
     * @return {Function|undefined}
-    */function makeGetterFn(body){try{ /* eslint-disable no-new-func */return new Function('scope','return '+body+';'); /* eslint-enable no-new-func */}catch(e){process.env.NODE_ENV!=='production'&&warn('Invalid expression. '+'Generated function body: '+body);}} /**
+    */function makeGetterFn(body){try{ /* eslint-disable no-new-func */return new Function('scope','return '+body+';'); /* eslint-enable no-new-func */}catch(e){'production'!=='production'&&warn('Invalid expression. '+'Generated function body: '+body);}} /**
     * Compile a setter function for the expression.
     *
     * @param {String} exp
     * @return {Function|undefined}
-    */function compileSetter(exp){var path=parsePath(exp);if(path){return function(scope,val){setPath(scope,path,val);};}else {process.env.NODE_ENV!=='production'&&warn('Invalid setter expression: '+exp);}} /**
+    */function compileSetter(exp){var path=parsePath(exp);if(path){return function(scope,val){setPath(scope,path,val);};}else {'production'!=='production'&&warn('Invalid setter expression: '+exp);}} /**
     * Parse an expression into re-written getter/setters.
     *
     * @param {String} exp
@@ -919,7 +916,7 @@
     */function runBatcherQueue(queue){ // do not cache length because more watchers might be pushed
    // as we run existing watchers
    for(queueIndex=0;queueIndex<queue.length;queueIndex++){var watcher=queue[queueIndex];var id=watcher.id;has[id]=null;watcher.run(); // in dev build, check and stop circular updates.
-   if(process.env.NODE_ENV!=='production'&&has[id]!=null){circular[id]=(circular[id]||0)+1;if(circular[id]>config._maxUpdateCount){queue.splice(has[id],1);warn('You may have an infinite update loop for watcher '+'with expression: '+watcher.expression);}}}} /**
+   if('production'!=='production'&&has[id]!=null){}}} /**
     * Push a watcher into the watcher queue.
     * Jobs with duplicate IDs will be skipped unless it's
     * pushed when the queue is being flushed.
@@ -959,14 +956,14 @@
    // watchers during vm._digest()
    this.queued=this.shallow=false;} /**
     * Evaluate the getter, and re-collect dependencies.
-    */Watcher.prototype.get=function(){this.beforeGet();var scope=this.scope||this.vm;var value;try{value=this.getter.call(scope,scope);}catch(e){if(process.env.NODE_ENV!=='production'&&config.warnExpressionErrors){warn('Error when evaluating expression "'+this.expression+'". '+(config.debug?'':'Turn on debug mode to see stack trace.'),e);}} // "touch" every property so they are all tracked as
+    */Watcher.prototype.get=function(){this.beforeGet();var scope=this.scope||this.vm;var value;try{value=this.getter.call(scope,scope);}catch(e){if('production'!=='production'&&config.warnExpressionErrors){}} // "touch" every property so they are all tracked as
    // dependencies for deep watching
    if(this.deep){traverse(value);}if(this.preProcess){value=this.preProcess(value);}if(this.filters){value=scope._applyFilters(value,null,this.filters,false);}if(this.postProcess){value=this.postProcess(value);}this.afterGet();return value;}; /**
     * Set the corresponding value with the setter.
     *
     * @param {*} value
-    */Watcher.prototype.set=function(value){var scope=this.scope||this.vm;if(this.filters){value=scope._applyFilters(value,this.value,this.filters,true);}try{this.setter.call(scope,scope,value);}catch(e){if(process.env.NODE_ENV!=='production'&&config.warnExpressionErrors){warn('Error when evaluating setter "'+this.expression+'"',e);}} // two-way sync for v-for alias
-   var forContext=scope.$forContext;if(forContext&&forContext.alias===this.expression){if(forContext.filters){process.env.NODE_ENV!=='production'&&warn('It seems you are using two-way binding on '+'a v-for alias ('+this.expression+'), and the '+'v-for has filters. This will not work properly. '+'Either remove the filters or use an array of '+'objects and bind to object properties instead.');return;}forContext._withLock(function(){if(scope.$key){ // original is an object
+    */Watcher.prototype.set=function(value){var scope=this.scope||this.vm;if(this.filters){value=scope._applyFilters(value,this.value,this.filters,true);}try{this.setter.call(scope,scope,value);}catch(e){if('production'!=='production'&&config.warnExpressionErrors){}} // two-way sync for v-for alias
+   var forContext=scope.$forContext;if(forContext&&forContext.alias===this.expression){if(forContext.filters){'production'!=='production'&&warn('It seems you are using two-way binding on '+'a v-for alias ('+this.expression+'), and the '+'v-for has filters. This will not work properly. '+'Either remove the filters or use an array of '+'objects and bind to object properties instead.');return;}forContext._withLock(function(){if(scope.$key){ // original is an object
    forContext.rawValue[scope.$key]=value;}else {forContext.rawValue.$set(scope.$index,value);}});}}; /**
     * Prepare for dependency collection.
     */Watcher.prototype.beforeGet=function(){Dep.target=this;this.newDepIds=Object.create(null);this.newDeps.length=0;}; /**
@@ -983,7 +980,7 @@
     */Watcher.prototype.update=function(shallow){if(this.lazy){this.dirty=true;}else if(this.sync||!config.async){this.run();}else { // if queued, only overwrite shallow with non-shallow,
    // but not the other way around.
    this.shallow=this.queued?shallow?this.shallow:false:!!shallow;this.queued=true; // record before-push error stack in debug mode
-   /* istanbul ignore if */if(process.env.NODE_ENV!=='production'&&config.debug){this.prevError=new Error('[vue] async stack trace');}pushWatcher(this);}}; /**
+   /* istanbul ignore if */if('production'!=='production'&&config.debug){}pushWatcher(this);}}; /**
     * Batcher job interface.
     * Will be called by the batcher.
     */Watcher.prototype.run=function(){if(this.active){var value=this.get();if(value!==this.value|| // Deep watchers and watchers on Object/Arrays should fire even
@@ -994,7 +991,7 @@
    var oldValue=this.value;this.value=value; // in debug + async mode, when a watcher callbacks
    // throws, we also throw the saved before-push error
    // so the full cross-tick stack trace is available.
-   var prevError=this.prevError; /* istanbul ignore if */if(process.env.NODE_ENV!=='production'&&config.debug&&prevError){this.prevError=null;try{this.cb.call(this.vm,value,oldValue);}catch(e){nextTick(function(){throw prevError;},0);throw e;}}else {this.cb.call(this.vm,value,oldValue);}}this.queued=this.shallow=false;}}; /**
+   var prevError=this.prevError; /* istanbul ignore if */if('production'!=='production'&&config.debug&&prevError){}else {this.cb.call(this.vm,value,oldValue);}}this.queued=this.shallow=false;}}; /**
     * Evaluate the value of the watcher.
     * This only gets called for lazy watchers.
     */Watcher.prototype.evaluate=function(){ // avoid overwriting another watcher that is being
@@ -1147,7 +1144,7 @@
     * @param {Object} scope
     * @param {Fragment} parentFrag
     */FragmentFactory.prototype.create=function(host,scope,parentFrag){var frag=cloneNode(this.template);return new Fragment(this.linker,this.vm,frag,host,scope,parentFrag);};var ON=700;var MODEL=800;var BIND=850;var TRANSITION=1100;var EL=1500;var COMPONENT=1500;var PARTIAL=1750;var FOR=2000;var IF=2000;var SLOT=2100;var uid$3=0;var vFor={priority:FOR,terminal:true,params:['track-by','stagger','enter-stagger','leave-stagger'],bind:function bind(){ // support "item in/of items" syntax
-   var inMatch=this.expression.match(/(.*) (?:in|of) (.*)/);if(inMatch){var itMatch=inMatch[1].match(/\((.*),(.*)\)/);if(itMatch){this.iterator=itMatch[1].trim();this.alias=itMatch[2].trim();}else {this.alias=inMatch[1].trim();}this.expression=inMatch[2];}if(!this.alias){process.env.NODE_ENV!=='production'&&warn('Alias is required in v-for.');return;} // uid as a cache identifier
+   var inMatch=this.expression.match(/(.*) (?:in|of) (.*)/);if(inMatch){var itMatch=inMatch[1].match(/\((.*),(.*)\)/);if(itMatch){this.iterator=itMatch[1].trim();this.alias=itMatch[2].trim();}else {this.alias=inMatch[1].trim();}this.expression=inMatch[2];}if(!this.alias){'production'!=='production'&&warn('Alias is required in v-for.');return;} // uid as a cache identifier
    this.id='__v-for__'+ ++uid$3; // check if this is an option list,
    // so that we know if we need to update the <select>'s
    // v-model when the option list has changed.
@@ -1255,14 +1252,14 @@
       * @param {Fragment} frag
       * @param {Number} index
       * @param {String} [key]
-      */cacheFrag:function cacheFrag(value,frag,index,key){var trackByKey=this.params.trackBy;var cache=this.cache;var primitive=!isObject(value);var id;if(key||trackByKey||primitive){id=trackByKey?trackByKey==='$index'?index:value[trackByKey]:key||value;if(!cache[id]){cache[id]=frag;}else if(trackByKey!=='$index'){process.env.NODE_ENV!=='production'&&this.warnDuplicate(value);}}else {id=this.id;if(hasOwn(value,id)){if(value[id]===null){value[id]=frag;}else {process.env.NODE_ENV!=='production'&&this.warnDuplicate(value);}}else {def(value,id,frag);}}frag.raw=value;}, /**
+      */cacheFrag:function cacheFrag(value,frag,index,key){var trackByKey=this.params.trackBy;var cache=this.cache;var primitive=!isObject(value);var id;if(key||trackByKey||primitive){id=trackByKey?trackByKey==='$index'?index:value[trackByKey]:key||value;if(!cache[id]){cache[id]=frag;}else if(trackByKey!=='$index'){'production'!=='production'&&this.warnDuplicate(value);}}else {id=this.id;if(hasOwn(value,id)){if(value[id]===null){value[id]=frag;}else {'production'!=='production'&&this.warnDuplicate(value);}}else {def(value,id,frag);}}frag.raw=value;}, /**
       * Get a cached fragment from the value/index/key
       *
       * @param {*} value
       * @param {Number} index
       * @param {String} key
       * @return {Fragment}
-      */getCachedFrag:function getCachedFrag(value,index,key){var trackByKey=this.params.trackBy;var primitive=!isObject(value);var frag;if(key||trackByKey||primitive){var id=trackByKey?trackByKey==='$index'?index:value[trackByKey]:key||value;frag=this.cache[id];}else {frag=value[this.id];}if(frag&&(frag.reused||frag.fresh)){process.env.NODE_ENV!=='production'&&this.warnDuplicate(value);}return frag;}, /**
+      */getCachedFrag:function getCachedFrag(value,index,key){var trackByKey=this.params.trackBy;var primitive=!isObject(value);var frag;if(key||trackByKey||primitive){var id=trackByKey?trackByKey==='$index'?index:value[trackByKey]:key||value;frag=this.cache[id];}else {frag=value[this.id];}if(frag&&(frag.reused||frag.fresh)){'production'!=='production'&&this.warnDuplicate(value);}return frag;}, /**
       * Delete a fragment from cache.
       *
       * @param {Fragment} frag
@@ -1312,9 +1309,9 @@
     *
     * @param {Number} n
     * @return {Array}
-    */function range(n){var i=-1;var ret=new Array(Math.floor(n));while(++i<n){ret[i]=i;}return ret;}if(process.env.NODE_ENV!=='production'){vFor.warnDuplicate=function(value){warn('Duplicate value found in v-for="'+this.descriptor.raw+'": '+JSON.stringify(value)+'. Use track-by="$index" if '+'you are expecting duplicate values.');};}var vIf={priority:IF,terminal:true,bind:function bind(){var el=this.el;if(!el.__vue__){ // check else block
+    */function range(n){var i=-1;var ret=new Array(Math.floor(n));while(++i<n){ret[i]=i;}return ret;}if('production'!=='production'){}var vIf={priority:IF,terminal:true,bind:function bind(){var el=this.el;if(!el.__vue__){ // check else block
    var next=el.nextElementSibling;if(next&&getAttr(next,'v-else')!==null){remove(next);this.elseEl=next;} // check main block
-   this.anchor=createAnchor('v-if');replace(el,this.anchor);}else {process.env.NODE_ENV!=='production'&&warn('v-if="'+this.expression+'" cannot be '+'used on an instance root element.');this.invalid=true;}},update:function update(value){if(this.invalid)return;if(value){if(!this.frag){this.insert();}}else {this.remove();}},insert:function insert(){if(this.elseFrag){this.elseFrag.remove();this.elseFrag=null;} // lazy init factory
+   this.anchor=createAnchor('v-if');replace(el,this.anchor);}else {'production'!=='production'&&warn('v-if="'+this.expression+'" cannot be '+'used on an instance root element.');this.invalid=true;}},update:function update(value){if(this.invalid)return;if(value){if(!this.frag){this.insert();}}else {this.remove();}},insert:function insert(){if(this.elseFrag){this.elseFrag.remove();this.elseFrag=null;} // lazy init factory
    if(!this.factory){this.factory=new FragmentFactory(this.vm,this.el);}this.frag=this.factory.create(this._host,this._scope,this._frag);this.frag.before(this.anchor);},remove:function remove(){if(this.frag){this.frag.remove();this.frag=null;}if(this.elseEl&&!this.elseFrag){if(!this.elseFactory){this.elseFactory=new FragmentFactory(this.elseEl._context||this.vm,this.elseEl);}this.elseFrag=this.elseFactory.create(this._host,this._scope,this._frag);this.elseFrag.before(this.anchor);}},unbind:function unbind(){if(this.frag){this.frag.destroy();}if(this.elseFrag){this.elseFrag.destroy();}}};var show={bind:function bind(){ // check else block
    var next=this.el.nextElementSibling;if(next&&getAttr(next,'v-else')!==null){this.elseEl=next;}},update:function update(value){this.apply(this.el,value);if(this.elseEl){this.apply(this.elseEl,!value);}},apply:function apply(el,value){if(inDoc(el)){applyTransition(el,value?1:-1,toggle,this.vm);}else {toggle();}function toggle(){el.style.display=value?'':'none';}}};var text$2={bind:function bind(){var self=this;var el=this.el;var isRange=el.type==='range';var lazy=this.params.lazy;var number=this.params.number;var debounce=this.params.debounce; // handle composition events.
    //   http://blog.evanyou.me/2014/01/03/composition-event/
@@ -1379,13 +1376,13 @@
       *     - radio
       *     - number
       */bind:function bind(){ // friendly warning...
-   this.checkFilters();if(this.hasRead&&!this.hasWrite){process.env.NODE_ENV!=='production'&&warn('It seems you are using a read-only filter with '+'v-model. You might want to use a two-way filter '+'to ensure correct behavior.');}var el=this.el;var tag=el.tagName;var handler;if(tag==='INPUT'){handler=handlers[el.type]||handlers.text;}else if(tag==='SELECT'){handler=handlers.select;}else if(tag==='TEXTAREA'){handler=handlers.text;}else {process.env.NODE_ENV!=='production'&&warn('v-model does not support element type: '+tag);return;}el.__v_model=this;handler.bind.call(this);this.update=handler.update;this._unbind=handler.unbind;}, /**
+   this.checkFilters();if(this.hasRead&&!this.hasWrite){'production'!=='production'&&warn('It seems you are using a read-only filter with '+'v-model. You might want to use a two-way filter '+'to ensure correct behavior.');}var el=this.el;var tag=el.tagName;var handler;if(tag==='INPUT'){handler=handlers[el.type]||handlers.text;}else if(tag==='SELECT'){handler=handlers.select;}else if(tag==='TEXTAREA'){handler=handlers.text;}else {'production'!=='production'&&warn('v-model does not support element type: '+tag);return;}el.__v_model=this;handler.bind.call(this);this.update=handler.update;this._unbind=handler.unbind;}, /**
       * Check read/write filter stats.
       */checkFilters:function checkFilters(){var filters=this.filters;if(!filters)return;var i=filters.length;while(i--){var filter=resolveAsset(this.vm.$options,'filters',filters[i].name);if(typeof filter==='function'||filter.read){this.hasRead=true;}if(filter.write){this.hasWrite=true;}}},unbind:function unbind(){this.el.__v_model=null;this._unbind&&this._unbind();}}; // keyCode aliases
    var keyCodes={esc:27,tab:9,enter:13,space:32,'delete':[8,46],up:38,left:37,right:39,down:40};function keyFilter(handler,keys){var codes=keys.map(function(key){var charCode=key.charCodeAt(0);if(charCode>47&&charCode<58){return parseInt(key,10);}if(key.length===1){charCode=key.toUpperCase().charCodeAt(0);if(charCode>64&&charCode<91){return charCode;}}return keyCodes[key];});codes=[].concat.apply([],codes);return function keyHandler(e){if(codes.indexOf(e.keyCode)>-1){return handler.call(this,e);}};}function stopFilter(handler){return function stopHandler(e){e.stopPropagation();return handler.call(this,e);};}function preventFilter(handler){return function preventHandler(e){e.preventDefault();return handler.call(this,e);};}function selfFilter(handler){return function selfHandler(e){if(e.target===e.currentTarget){return handler.call(this,e);}};}var on$1={priority:ON,acceptStatement:true,keyCodes:keyCodes,bind:function bind(){ // deal with iframes
    if(this.el.tagName==='IFRAME'&&this.arg!=='load'){var self=this;this.iframeBind=function(){on(self.el.contentWindow,self.arg,self.handler,self.modifiers.capture);};this.on('load',this.iframeBind);}},update:function update(handler){ // stub a noop for v-on with no value,
    // e.g. @mousedown.prevent
-   if(!this.descriptor.raw){handler=function handler(){};}if(typeof handler!=='function'){process.env.NODE_ENV!=='production'&&warn('v-on:'+this.arg+'="'+this.expression+'" expects a function value, '+'got '+handler);return;} // apply modifiers
+   if(!this.descriptor.raw){handler=function handler(){};}if(typeof handler!=='function'){'production'!=='production'&&warn('v-on:'+this.arg+'="'+this.expression+'" expects a function value, '+'got '+handler);return;} // apply modifiers
    if(this.modifiers.stop){handler=stopFilter(handler);}if(this.modifiers.prevent){handler=preventFilter(handler);}if(this.modifiers.self){handler=selfFilter(handler);} // key filter
    var keys=Object.keys(this.modifiers).filter(function(key){return key!=='stop'&&key!=='prevent'&&key!=='self';});if(keys.length){handler=keyFilter(handler,keys);}this.reset();this.handler=handler;if(this.iframeBind){this.iframeBind();}else {on(this.el,this.arg,this.handler,this.modifiers.capture);}},reset:function reset(){var el=this.iframeBind?this.el.contentWindow:this.el;if(this.handler){off(el,this.arg,this.handler);}},unbind:function unbind(){this.reset();}};var prefixes=['-webkit-','-moz-','-ms-'];var camelPrefixes=['Webkit','Moz','ms'];var importantRE=/!important;?$/;var propCache=Object.create(null);var testEl=null;var style={deep:true,update:function update(value){if(typeof value==='string'){this.el.style.cssText=value;}else if(isArray(value)){this.handleObject(value.reduce(extend,{}));}else {this.handleObject(value||{});}},handleObject:function handleObject(value){ // cache object styles so that only changed props
    // are actually updated.
@@ -1417,9 +1414,7 @@
    if(!attr){this.deep=true;} // handle interpolation bindings
    var descriptor=this.descriptor;var tokens=descriptor.interp;if(tokens){ // handle interpolations with one-time tokens
    if(descriptor.hasOneTime){this.expression=tokensToExp(tokens,this._scope||this.vm);} // only allow binding on native attributes
-   if(disallowedInterpAttrRE.test(attr)||attr==='name'&&(tag==='PARTIAL'||tag==='SLOT')){process.env.NODE_ENV!=='production'&&warn(attr+'="'+descriptor.raw+'": '+'attribute interpolation is not allowed in Vue.js '+'directives and special attributes.');this.el.removeAttribute(attr);this.invalid=true;} /* istanbul ignore if */if(process.env.NODE_ENV!=='production'){var raw=attr+'="'+descriptor.raw+'": '; // warn src
-   if(attr==='src'){warn(raw+'interpolation in "src" attribute will cause '+'a 404 request. Use v-bind:src instead.');} // warn style
-   if(attr==='style'){warn(raw+'interpolation in "style" attribute will cause '+'the attribute to be discarded in Internet Explorer. '+'Use v-bind:style instead.');}}}},update:function update(value){if(this.invalid){return;}var attr=this.arg;if(this.arg){this.handleSingle(attr,value);}else {this.handleObject(value||{});}}, // share object handler with v-bind:class
+   if(disallowedInterpAttrRE.test(attr)||attr==='name'&&(tag==='PARTIAL'||tag==='SLOT')){'production'!=='production'&&warn(attr+'="'+descriptor.raw+'": '+'attribute interpolation is not allowed in Vue.js '+'directives and special attributes.');this.el.removeAttribute(attr);this.invalid=true;} /* istanbul ignore if */if('production'!=='production'){}}},update:function update(value){if(this.invalid){return;}var attr=this.arg;if(this.arg){this.handleSingle(attr,value);}else {this.handleObject(value||{});}}, // share object handler with v-bind:class
    handleObject:style.handleObject,handleSingle:function handleSingle(attr,value){var el=this.el;var interp=this.descriptor.interp;if(this.modifiers.camel){attr=camelize(attr);}if(!interp&&attrWithPropsRE.test(attr)&&attr in el){el[attr]=attr==='value'?value==null // IE9 will set input.value to "null" for null...
    ?'':value:value;} // set model props
    var modelProp=modelProps[attr];if(!interp&&modelProp){el[modelProp]=value; // update v-model if present
@@ -1427,7 +1422,7 @@
    if(attr==='value'&&el.tagName==='TEXTAREA'){el.removeAttribute(attr);return;} // update attribute
    if(enumeratedAttrRE.test(attr)){el.setAttribute(attr,value?'true':'false');}else if(value!=null&&value!==false){if(attr==='class'){ // handle edge case #1960:
    // class interpolation should not overwrite Vue transition class
-   if(el.__v_trans){value+=' '+el.__v_trans.id+'-transition';}setClass(el,value);}else if(xlinkRE.test(attr)){el.setAttributeNS(xlinkNS,attr,value===true?'':value);}else {el.setAttribute(attr,value===true?'':value);}}else {el.removeAttribute(attr);}}};var el={priority:EL,bind:function bind(){ /* istanbul ignore if */if(!this.arg){return;}var id=this.id=camelize(this.arg);var refs=(this._scope||this.vm).$els;if(hasOwn(refs,id)){refs[id]=this.el;}else {defineReactive(refs,id,this.el);}},unbind:function unbind(){var refs=(this._scope||this.vm).$els;if(refs[this.id]===this.el){refs[this.id]=null;}}};var ref={bind:function bind(){process.env.NODE_ENV!=='production'&&warn('v-ref:'+this.arg+' must be used on a child '+'component. Found on <'+this.el.tagName.toLowerCase()+'>.');}};var cloak={bind:function bind(){var el=this.el;this.vm.$once('pre-hook:compiled',function(){el.removeAttribute('v-cloak');});}}; // must export plain object
+   if(el.__v_trans){value+=' '+el.__v_trans.id+'-transition';}setClass(el,value);}else if(xlinkRE.test(attr)){el.setAttributeNS(xlinkNS,attr,value===true?'':value);}else {el.setAttribute(attr,value===true?'':value);}}else {el.removeAttribute(attr);}}};var el={priority:EL,bind:function bind(){ /* istanbul ignore if */if(!this.arg){return;}var id=this.id=camelize(this.arg);var refs=(this._scope||this.vm).$els;if(hasOwn(refs,id)){refs[id]=this.el;}else {defineReactive(refs,id,this.el);}},unbind:function unbind(){var refs=(this._scope||this.vm).$els;if(refs[this.id]===this.el){refs[this.id]=null;}}};var ref={bind:function bind(){'production'!=='production'&&warn('v-ref:'+this.arg+' must be used on a child '+'component. Found on <'+this.el.tagName.toLowerCase()+'>.');}};var cloak={bind:function bind(){var el=this.el;this.vm.$once('pre-hook:compiled',function(){el.removeAttribute('v-cloak');});}}; // must export plain object
    var directives={text:text$1,html:html,'for':vFor,'if':vIf,show:show,model:model,on:on$1,bind:bind$1,el:el,ref:ref,cloak:cloak};var vClass={deep:true,update:function update(value){if(value&&typeof value==='string'){this.handleObject(stringToObject(value));}else if(isPlainObject(value)){this.handleObject(value);}else if(isArray(value)){this.handleArray(value);}else {this.cleanup();}},handleObject:function handleObject(value){this.cleanup(value);this.prevKeys=Object.keys(value);setObjectClasses(this.el,value);},handleArray:function handleArray(value){this.cleanup(value);for(var i=0,l=value.length;i<l;i++){var val=value[i];if(val&&isPlainObject(val)){setObjectClasses(this.el,val);}else if(val&&typeof val==='string'){addClass(this.el,val);}}this.prevKeys=value.slice();},cleanup:function cleanup(value){if(this.prevKeys){var i=this.prevKeys.length;while(i--){var key=this.prevKeys[i];if(!key)continue;if(isPlainObject(key)){var keys=Object.keys(key);for(var k=0;k<keys.length;k++){removeClass(this.el,keys[k]);}}else {removeClass(this.el,key);}}}}};function setObjectClasses(el,obj){var keys=Object.keys(obj);for(var i=0,l=keys.length;i<l;i++){var key=keys[i];if(obj[key]){addClass(el,key);}}}function stringToObject(value){var res={};var keys=value.trim().split(/\s+/);var i=keys.length;while(i--){res[keys[i]]=true;}return res;}var component={priority:COMPONENT,params:['keep-alive','transition-mode','inline-template'], /**
       * Setup. Two possible usages:
       *
@@ -1448,7 +1443,7 @@
    // will remain at link time.
    this.el.removeAttribute('is'); // remove ref, same as above
    if(this.descriptor.ref){this.el.removeAttribute('v-ref:'+hyphenate(this.descriptor.ref));} // if static, build right now.
-   if(this.literal){this.setComponent(this.expression);}}else {process.env.NODE_ENV!=='production'&&warn('cannot mount component "'+this.expression+'" '+'on already mounted element: '+this.el);}}, /**
+   if(this.literal){this.setComponent(this.expression);}}else {'production'!=='production'&&warn('cannot mount component "'+this.expression+'" '+'on already mounted element: '+this.el);}}, /**
       * Public update, called by the watcher in the dynamic
       * literal scenario, e.g. <component :is="view">
       */update:function update(value){if(!this.literal){this.setComponent(value);}}, /**
@@ -1508,7 +1503,7 @@
    // call attach/detach hooks for them.
    _frag:this._frag}; // extra options
    // in 1.0.0 this is used by vue-router only
-   /* istanbul ignore if */if(extraOptions){extend(options,extraOptions);}var child=new this.Component(options);if(this.keepAlive){this.cache[this.Component.cid]=child;} /* istanbul ignore if */if(process.env.NODE_ENV!=='production'&&this.el.hasAttribute('transition')&&child._isFragment){warn('Transitions will not work on a fragment instance. '+'Template: '+child.$options.template);}return child;}}, /**
+   /* istanbul ignore if */if(extraOptions){extend(options,extraOptions);}var child=new this.Component(options);if(this.keepAlive){this.cache[this.Component.cid]=child;} /* istanbul ignore if */if('production'!=='production'&&this.el.hasAttribute('transition')&&child._isFragment){}return child;}}, /**
       * Try to get a cached instance of the current component.
       *
       * @return {Vue|undefined}
@@ -1555,21 +1550,19 @@
     * @param {Element|DocumentFragment} el
     * @param {Array} propOptions
     * @return {Function} propsLinkFn
-    */function compileProps(el,propOptions){var props=[];var names=Object.keys(propOptions);var i=names.length;var options,name,attr,value,path,parsed,prop;while(i--){name=names[i];options=propOptions[name]||empty;if(process.env.NODE_ENV!=='production'&&name==='$data'){warn('Do not use $data as prop.');continue;} // props could contain dashes, which will be
+    */function compileProps(el,propOptions){var props=[];var names=Object.keys(propOptions);var i=names.length;var options,name,attr,value,path,parsed,prop;while(i--){name=names[i];options=propOptions[name]||empty;if('production'!=='production'&&name==='$data'){} // props could contain dashes, which will be
    // interpreted as minus calculations by the parser
    // so we need to camelize the path here
-   path=camelize(name);if(!identRE$1.test(path)){process.env.NODE_ENV!=='production'&&warn('Invalid prop key: "'+name+'". Prop keys '+'must be valid identifiers.');continue;}prop={name:name,path:path,options:options,mode:propBindingModes.ONE_WAY,raw:null};attr=hyphenate(name); // first check dynamic version
+   path=camelize(name);if(!identRE$1.test(path)){'production'!=='production'&&warn('Invalid prop key: "'+name+'". Prop keys '+'must be valid identifiers.');continue;}prop={name:name,path:path,options:options,mode:propBindingModes.ONE_WAY,raw:null};attr=hyphenate(name); // first check dynamic version
    if((value=getBindAttr(el,attr))===null){if((value=getBindAttr(el,attr+'.sync'))!==null){prop.mode=propBindingModes.TWO_WAY;}else if((value=getBindAttr(el,attr+'.once'))!==null){prop.mode=propBindingModes.ONE_TIME;}}if(value!==null){ // has dynamic binding!
    prop.raw=value;parsed=parseDirective(value);value=parsed.expression;prop.filters=parsed.filters; // check binding type
    if(isLiteral(value)&&!parsed.filters){ // for expressions containing literal numbers and
    // booleans, there's no need to setup a prop binding,
    // so we can optimize them as a one-time set.
    prop.optimizedLiteral=true;}else {prop.dynamic=true; // check non-settable path for two-way bindings
-   if(process.env.NODE_ENV!=='production'&&prop.mode===propBindingModes.TWO_WAY&&!settablePathRE.test(value)){prop.mode=propBindingModes.ONE_WAY;warn('Cannot bind two-way prop with non-settable '+'parent path: '+value);}}prop.parentPath=value; // warn required two-way
-   if(process.env.NODE_ENV!=='production'&&options.twoWay&&prop.mode!==propBindingModes.TWO_WAY){warn('Prop "'+name+'" expects a two-way binding type.');}}else if((value=getAttr(el,attr))!==null){ // has literal binding!
-   prop.raw=value;}else if(process.env.NODE_ENV!=='production'){ // check possible camelCase prop usage
-   var lowerCaseName=path.toLowerCase();value=/[A-Z\-]/.test(name)&&(el.getAttribute(lowerCaseName)||el.getAttribute(':'+lowerCaseName)||el.getAttribute('v-bind:'+lowerCaseName)||el.getAttribute(':'+lowerCaseName+'.once')||el.getAttribute('v-bind:'+lowerCaseName+'.once')||el.getAttribute(':'+lowerCaseName+'.sync')||el.getAttribute('v-bind:'+lowerCaseName+'.sync'));if(value){warn('Possible usage error for prop `'+lowerCaseName+'` - '+'did you mean `'+attr+'`? HTML is case-insensitive, remember to use '+'kebab-case for props in templates.');}else if(options.required){ // warn missing required
-   warn('Missing required prop: '+name);}} // push prop
+   if('production'!=='production'&&prop.mode===propBindingModes.TWO_WAY&&!settablePathRE.test(value)){}}prop.parentPath=value; // warn required two-way
+   if('production'!=='production'&&options.twoWay&&prop.mode!==propBindingModes.TWO_WAY){}}else if((value=getAttr(el,attr))!==null){ // has literal binding!
+   prop.raw=value;}else if('production'!=='production'){} // push prop
    props.push(prop);}return makePropsLinkFn(props);} /**
     * Build a function that applies props to a vm.
     *
@@ -1602,7 +1595,7 @@
     */function getPropDefaultValue(vm,options){ // no default, return undefined
    if(!hasOwn(options,'default')){ // absent boolean value defaults to false
    return options.type===Boolean?false:undefined;}var def=options['default']; // warn against non-factory defaults for Object & Array
-   if(isObject(def)){process.env.NODE_ENV!=='production'&&warn('Object/Array as default prop values will be shared '+'across multiple instances. Use a factory function '+'to return the default value instead.');} // call factory function for non-Function types
+   if(isObject(def)){'production'!=='production'&&warn('Object/Array as default prop values will be shared '+'across multiple instances. Use a factory function '+'to return the default value instead.');} // call factory function for non-Function types
    return typeof def==='function'&&options.type!==Function?def.call(vm):def;} /**
     * Assert whether a prop is valid.
     *
@@ -1611,7 +1604,7 @@
     */function assertProp(prop,value){if(!prop.options.required&&( // non-required
    prop.raw===null|| // abscent
    value==null) // null or undefined
-   ){return true;}var options=prop.options;var type=options.type;var valid=true;var expectedType;if(type){if(type===String){expectedType='string';valid=(typeof value==='undefined'?'undefined':babelHelpers.typeof(value))===expectedType;}else if(type===Number){expectedType='number';valid=typeof value==='number';}else if(type===Boolean){expectedType='boolean';valid=typeof value==='boolean';}else if(type===Function){expectedType='function';valid=typeof value==='function';}else if(type===Object){expectedType='object';valid=isPlainObject(value);}else if(type===Array){expectedType='array';valid=isArray(value);}else {valid=value instanceof type;}}if(!valid){process.env.NODE_ENV!=='production'&&warn('Invalid prop: type check failed for '+prop.path+'="'+prop.raw+'".'+' Expected '+formatType(expectedType)+', got '+formatValue(value)+'.');return false;}var validator=options.validator;if(validator){if(!validator(value)){process.env.NODE_ENV!=='production'&&warn('Invalid prop: custom validator check failed for '+prop.path+'="'+prop.raw+'"');return false;}}return true;} /**
+   ){return true;}var options=prop.options;var type=options.type;var valid=true;var expectedType;if(type){if(type===String){expectedType='string';valid=(typeof value==='undefined'?'undefined':babelHelpers.typeof(value))===expectedType;}else if(type===Number){expectedType='number';valid=typeof value==='number';}else if(type===Boolean){expectedType='boolean';valid=typeof value==='boolean';}else if(type===Function){expectedType='function';valid=typeof value==='function';}else if(type===Object){expectedType='object';valid=isPlainObject(value);}else if(type===Array){expectedType='array';valid=isArray(value);}else {valid=value instanceof type;}}if(!valid){'production'!=='production'&&warn('Invalid prop: type check failed for '+prop.path+'="'+prop.raw+'".'+' Expected '+formatType(expectedType)+', got '+formatValue(value)+'.');return false;}var validator=options.validator;if(validator){if(!validator(value)){'production'!=='production'&&warn('Invalid prop: custom validator check failed for '+prop.path+'="'+prop.raw+'"');return false;}}return true;} /**
     * Force parsing value with coerce option.
     *
     * @param {*} value
@@ -1661,7 +1654,7 @@
     * @param {Vue} vm
     */function Transition(el,id,hooks,vm){this.id=id;this.el=el;this.enterClass=hooks&&hooks.enterClass||id+'-enter';this.leaveClass=hooks&&hooks.leaveClass||id+'-leave';this.hooks=hooks;this.vm=vm; // async state
    this.pendingCssEvent=this.pendingCssCb=this.cancel=this.pendingJsCb=this.op=this.cb=null;this.justEntered=false;this.entered=this.left=false;this.typeCache={}; // check css transition type
-   this.type=hooks&&hooks.type; /* istanbul ignore if */if(process.env.NODE_ENV!=='production'){if(this.type&&this.type!==TYPE_TRANSITION&&this.type!==TYPE_ANIMATION){warn('invalid CSS transition type for transition="'+this.id+'": '+this.type);}} // bind
+   this.type=hooks&&hooks.type; /* istanbul ignore if */if('production'!=='production'){} // bind
    var self=this;['enterNextTick','enterDone','leaveNextTick','leaveDone'].forEach(function(m){self[m]=bind(self[m],self);});}var p$1=Transition.prototype; /**
     * Start an entering transition.
     *
@@ -1806,7 +1799,7 @@
     *
     * @param {Function} linker
     * @param {Vue} vm
-    */function linkAndCapture(linker,vm){ /* istanbul ignore if */if(process.env.NODE_ENV==='production'){ // reset directives before every capture in production
+    */function linkAndCapture(linker,vm){ /* istanbul ignore if */if('production'==='production'){ // reset directives before every capture in production
    // mode, so that when unlinking we don't need to splice
    // them out (which turns out to be a perf hit).
    // they are kept in development mode because they are
@@ -1836,7 +1829,7 @@
     * @param {Vue} vm
     * @param {Array} dirs
     * @param {Boolean} destroying
-    */function teardownDirs(vm,dirs,destroying){var i=dirs.length;while(i--){dirs[i]._teardown();if(process.env.NODE_ENV!=='production'&&!destroying){vm._directives.$remove(dirs[i]);}}} /**
+    */function teardownDirs(vm,dirs,destroying){var i=dirs.length;while(i--){dirs[i]._teardown();if('production'!=='production'&&!destroying){}}} /**
     * Compile link props on an instance.
     *
     * @param {Vue} vm
@@ -1864,11 +1857,7 @@
    if(options._asComponent){ // 2. container attributes
    if(containerAttrs&&contextOptions){contextLinkFn=compileDirectives(containerAttrs,contextOptions);}if(replacerAttrs){ // 3. replacer attributes
    replacerLinkFn=compileDirectives(replacerAttrs,options);}}else { // non-component, just compile as a normal element.
-   replacerLinkFn=compileDirectives(el.attributes,options);}}else if(process.env.NODE_ENV!=='production'&&containerAttrs){ // warn container directives for fragment instances
-   var names=containerAttrs.filter(function(attr){ // allow vue-loader/vueify scoped css attributes
-   return attr.name.indexOf('_v-')<0&& // allow event listeners
-   !onRE.test(attr.name)&& // allow slots
-   attr.name!=='slot';}).map(function(attr){return '"'+attr.name+'"';});if(names.length){var plural=names.length>1;warn('Attribute'+(plural?'s ':' ')+names.join(', ')+(plural?' are':' is')+' ignored on component '+'<'+options.el.tagName.toLowerCase()+'> because '+'the component is a fragment instance: '+'http://vuejs.org/guide/components.html#Fragment_Instance');}}options._containerAttrs=options._replacerAttrs=null;return function rootLinkFn(vm,el,scope){ // link context scope dirs
+   replacerLinkFn=compileDirectives(el.attributes,options);}}else if('production'!=='production'&&containerAttrs){}options._containerAttrs=options._replacerAttrs=null;return function rootLinkFn(vm,el,scope){ // link context scope dirs
    var context=vm._context;var contextDirs;if(context&&contextLinkFn){contextDirs=linkAndCapture(function(){contextLinkFn(context,el,null,scope);},context);} // link self
    var selfDirs=linkAndCapture(function(){if(replacerLinkFn)replacerLinkFn(vm,el);},vm); // return the unlink function that tearsdown context
    // container directives.
@@ -1984,12 +1973,12 @@
    arg=null; // check modifiers
    modifiers=parseModifiers(name);name=name.replace(modifierRE,''); // attribute interpolations
    if(tokens){value=tokensToExp(tokens);arg=name;pushDir('bind',directives.bind,tokens); // warn against mixing mustaches with v-bind
-   if(process.env.NODE_ENV!=='production'){if(name==='class'&&Array.prototype.some.call(attrs,function(attr){return attr.name===':class'||attr.name==='v-bind:class';})){warn('class="'+rawValue+'": Do not mix mustache interpolation '+'and v-bind for "class" on the same element. Use one or the other.');}}}else  // special attribute: transition
+   if('production'!=='production'){}}else  // special attribute: transition
    if(transitionRE.test(name)){modifiers.literal=!bindRE.test(name);pushDir('transition',internalDirectives.transition);}else  // event handlers
    if(onRE.test(name)){arg=name.replace(onRE,'');pushDir('on',directives.on);}else  // attribute bindings
    if(bindRE.test(name)){dirName=name.replace(bindRE,'');if(dirName==='style'||dirName==='class'){pushDir(dirName,internalDirectives[dirName]);}else {arg=dirName;pushDir('bind',directives.bind);}}else  // normal directives
    if(matched=name.match(dirAttrRE)){dirName=matched[1];arg=matched[2]; // skip v-else (when used with v-show)
-   if(dirName==='else'){continue;}dirDef=resolveAsset(options,'directives',dirName);if(process.env.NODE_ENV!=='production'){assertAsset(dirDef,'directive',dirName);}if(dirDef){pushDir(dirName,dirDef);}}} /**
+   if(dirName==='else'){continue;}dirDef=resolveAsset(options,'directives',dirName);if('production'!=='production'){}if(dirDef){pushDir(dirName,dirDef);}}} /**
       * Push a directive.
       *
       * @param {String} dirName
@@ -2041,7 +2030,7 @@
     * @param {Element} el
     * @param {Object} options
     * @return {Element|DocumentFragment}
-    */function transcludeTemplate(el,options){var template=options.template;var frag=parseTemplate(template,true);if(frag){var replacer=frag.firstChild;var tag=replacer.tagName&&replacer.tagName.toLowerCase();if(options.replace){ /* istanbul ignore if */if(el===document.body){process.env.NODE_ENV!=='production'&&warn('You are mounting an instance with a template to '+'<body>. This will replace <body> entirely. You '+'should probably use `replace: false` here.');} // there are many cases where the instance must
+    */function transcludeTemplate(el,options){var template=options.template;var frag=parseTemplate(template,true);if(frag){var replacer=frag.firstChild;var tag=replacer.tagName&&replacer.tagName.toLowerCase();if(options.replace){ /* istanbul ignore if */if(el===document.body){'production'!=='production'&&warn('You are mounting an instance with a template to '+'<body>. This will replace <body> entirely. You '+'should probably use `replace: false` here.');} // there are many cases where the instance must
    // become a fragment instance: basically anything that
    // can create more than 1 root nodes.
    if( // multi-children template
@@ -2050,7 +2039,7 @@
    tag==='component'||resolveAsset(options,'components',tag)||hasBindAttr(replacer,'is')|| // element directive
    resolveAsset(options,'elementDirectives',tag)|| // for block
    replacer.hasAttribute('v-for')|| // if block
-   replacer.hasAttribute('v-if')){return frag;}else {options._replacerAttrs=extractAttrs(replacer);mergeAttrs(el,replacer);return replacer;}}else {el.appendChild(frag);return el;}}else {process.env.NODE_ENV!=='production'&&warn('Invalid template option: '+template);}} /**
+   replacer.hasAttribute('v-if')){return frag;}else {options._replacerAttrs=extractAttrs(replacer);mergeAttrs(el,replacer);return replacer;}}else {el.appendChild(frag);return el;}}else {'production'!=='production'&&warn('Invalid template option: '+template);}} /**
     * Helper to extract a component container's attributes
     * into a plain object array.
     *
@@ -2071,7 +2060,7 @@
     * @param {Element|DocumentFragment} template
     * @param {Element} content
     * @param {Vue} vm
-    */function resolveSlots(vm,content){if(!content){return;}var contents=vm._slotContents=Object.create(null);var el,name;for(var i=0,l=content.children.length;i<l;i++){el=content.children[i]; /* eslint-disable no-cond-assign */if(name=el.getAttribute('slot')){(contents[name]||(contents[name]=[])).push(el);} /* eslint-enable no-cond-assign */if(process.env.NODE_ENV!=='production'&&getBindAttr(el,'slot')){warn('The "slot" attribute must be static.');}}for(name in contents){contents[name]=extractFragment(contents[name],content);}if(content.hasChildNodes()){contents['default']=extractFragment(content.childNodes,content);}} /**
+    */function resolveSlots(vm,content){if(!content){return;}var contents=vm._slotContents=Object.create(null);var el,name;for(var i=0,l=content.children.length;i<l;i++){el=content.children[i]; /* eslint-disable no-cond-assign */if(name=el.getAttribute('slot')){(contents[name]||(contents[name]=[])).push(el);} /* eslint-enable no-cond-assign */if('production'!=='production'&&getBindAttr(el,'slot')){}}for(name in contents){contents[name]=extractFragment(contents[name],content);}if(content.hasChildNodes()){contents['default']=extractFragment(content.childNodes,content);}} /**
     * Extract qualified content nodes from a node list.
     *
     * @param {NodeList} nodes
@@ -2088,16 +2077,16 @@
       * - meta properties
       */Vue.prototype._initState=function(){this._initProps();this._initMeta();this._initMethods();this._initData();this._initComputed();}; /**
       * Initialize props.
-      */Vue.prototype._initProps=function(){var options=this.$options;var el=options.el;var props=options.props;if(props&&!el){process.env.NODE_ENV!=='production'&&warn('Props will not be compiled if no `el` option is '+'provided at instantiation.');} // make sure to convert string selectors into element now
+      */Vue.prototype._initProps=function(){var options=this.$options;var el=options.el;var props=options.props;if(props&&!el){'production'!=='production'&&warn('Props will not be compiled if no `el` option is '+'provided at instantiation.');} // make sure to convert string selectors into element now
    el=options.el=query(el);this._propsUnlinkFn=el&&el.nodeType===1&&props // props must be linked in proper scope if inside v-for
    ?compileAndLinkProps(this,el,props,this._scope):null;}; /**
       * Initialize the data.
-      */Vue.prototype._initData=function(){var dataFn=this.$options.data;var data=this._data=dataFn?dataFn():{};if(!isPlainObject(data)){data={};process.env.NODE_ENV!=='production'&&warn('data functions should return an object.');}var props=this._props;var runtimeData=this._runtimeData?typeof this._runtimeData==='function'?this._runtimeData():this._runtimeData:null; // proxy data on instance
+      */Vue.prototype._initData=function(){var dataFn=this.$options.data;var data=this._data=dataFn?dataFn():{};if(!isPlainObject(data)){data={};'production'!=='production'&&warn('data functions should return an object.');}var props=this._props;var runtimeData=this._runtimeData?typeof this._runtimeData==='function'?this._runtimeData():this._runtimeData:null; // proxy data on instance
    var keys=Object.keys(data);var i,key;i=keys.length;while(i--){key=keys[i]; // there are two scenarios where we can proxy a data key:
    // 1. it's not already defined as a prop
    // 2. it's provided via a instantiation option AND there are no
    //    template prop present
-   if(!props||!hasOwn(props,key)||runtimeData&&hasOwn(runtimeData,key)&&props[key].raw===null){this._proxy(key);}else if(process.env.NODE_ENV!=='production'){warn('Data field "'+key+'" is already defined '+'as a prop. Use prop default value instead.');}} // observe data
+   if(!props||!hasOwn(props,key)||runtimeData&&hasOwn(runtimeData,key)&&props[key].raw===null){this._proxy(key);}else if('production'!=='production'){}} // observe data
    observe(data,this);}; /**
       * Swap the instance's $data. Called in $data's setter.
       *
@@ -2140,7 +2129,7 @@
       *
       * @param {Vue} vm
       * @param {Element} el
-      */function registerComponentEvents(vm,el){var attrs=el.attributes;var name,handler;for(var i=0,l=attrs.length;i<l;i++){name=attrs[i].name;if(eventRE.test(name)){name=name.replace(eventRE,'');handler=(vm._scope||vm._context).$eval(attrs[i].value,true);if(typeof handler==='function'){handler._fromParent=true;vm.$on(name.replace(eventRE),handler);}else if(process.env.NODE_ENV!=='production'){warn('v-on:'+name+'="'+attrs[i].value+'"'+(vm.$options.name?' on component <'+vm.$options.name+'>':'')+' expects a function value, got '+handler);}}}} /**
+      */function registerComponentEvents(vm,el){var attrs=el.attributes;var name,handler;for(var i=0,l=attrs.length;i<l;i++){name=attrs[i].name;if(eventRE.test(name)){name=name.replace(eventRE,'');handler=(vm._scope||vm._context).$eval(attrs[i].value,true);if(typeof handler==='function'){handler._fromParent=true;vm.$on(name.replace(eventRE),handler);}else if('production'!=='production'){}}}} /**
       * Register callbacks for option events and watchers.
       *
       * @param {Vue} vm
@@ -2154,7 +2143,7 @@
       * @param {String} key
       * @param {Function|String|Object} handler
       * @param {Object} [options]
-      */function register(vm,action,key,handler,options){var type=typeof handler==='undefined'?'undefined':babelHelpers.typeof(handler);if(type==='function'){vm[action](key,handler,options);}else if(type==='string'){var methods=vm.$options.methods;var method=methods&&methods[handler];if(method){vm[action](key,method,options);}else {process.env.NODE_ENV!=='production'&&warn('Unknown method: "'+handler+'" when '+'registering callback for '+action+': "'+key+'".');}}else if(handler&&type==='object'){register(vm,action,key,handler.handler,handler);}} /**
+      */function register(vm,action,key,handler,options){var type=typeof handler==='undefined'?'undefined':babelHelpers.typeof(handler);if(type==='function'){vm[action](key,handler,options);}else if(type==='string'){var methods=vm.$options.methods;var method=methods&&methods[handler];if(method){vm[action](key,method,options);}else {'production'!=='production'&&warn('Unknown method: "'+handler+'" when '+'registering callback for '+action+': "'+key+'".');}}else if(handler&&type==='object'){register(vm,action,key,handler.handler,handler);}} /**
       * Setup recursive attached/detached calls
       */Vue.prototype._initDOMHooks=function(){this.$on('hook:attached',onAttached);this.$on('hook:detached',onDetached);}; /**
       * Callback to recursively call attached hook on children
@@ -2201,7 +2190,7 @@
    this.descriptor=descriptor;this.name=descriptor.name;this.expression=descriptor.expression;this.arg=descriptor.arg;this.modifiers=descriptor.modifiers;this.filters=descriptor.filters;this.literal=this.modifiers&&this.modifiers.literal; // private
    this._locked=false;this._bound=false;this._listeners=null; // link context
    this._host=host;this._scope=scope;this._frag=frag; // store directives on node in dev mode
-   if(process.env.NODE_ENV!=='production'&&this.el){this.el._vue_directives=this.el._vue_directives||[];this.el._vue_directives.push(this);}} /**
+   if('production'!=='production'&&this.el){}} /**
     * Initialize the directive, mixin definition properties,
     * setup the watcher, call definition bind() and update()
     * if present.
@@ -2243,7 +2232,7 @@
     *
     * @param {*} value
     * @public
-    */Directive.prototype.set=function(value){ /* istanbul ignore else */if(this.twoWay){this._withLock(function(){this._watcher.set(value);});}else if(process.env.NODE_ENV!=='production'){warn('Directive.set() can only be used inside twoWay'+'directives.');}}; /**
+    */Directive.prototype.set=function(value){ /* istanbul ignore else */if(this.twoWay){this._withLock(function(){this._watcher.set(value);});}else if('production'!=='production'){}}; /**
     * Execute a function while preventing that function from
     * triggering updates on this directive instance.
     *
@@ -2258,7 +2247,7 @@
     * @param {Boolean} [useCapture]
     */Directive.prototype.on=function(event,handler,useCapture){on(this.el,event,handler,useCapture);(this._listeners||(this._listeners=[])).push([event,handler]);}; /**
     * Teardown the watcher and call unbind.
-    */Directive.prototype._teardown=function(){if(this._bound){this._bound=false;if(this.unbind){this.unbind();}if(this._watcher){this._watcher.teardown();}var listeners=this._listeners;var i;if(listeners){i=listeners.length;while(i--){off(this.el,listeners[i][0],listeners[i][1]);}}var unwatchFns=this._paramUnwatchFns;if(unwatchFns){i=unwatchFns.length;while(i--){unwatchFns[i]();}}if(process.env.NODE_ENV!=='production'&&this.el){this.el._vue_directives.$remove(this);}this.vm=this.el=this._watcher=this._listeners=null;}};function lifecycleMixin(Vue){ /**
+    */Directive.prototype._teardown=function(){if(this._bound){this._bound=false;if(this.unbind){this.unbind();}if(this._watcher){this._watcher.teardown();}var listeners=this._listeners;var i;if(listeners){i=listeners.length;while(i--){off(this.el,listeners[i][0],listeners[i][1]);}}var unwatchFns=this._paramUnwatchFns;if(unwatchFns){i=unwatchFns.length;while(i--){unwatchFns[i]();}}if('production'!=='production'&&this.el){}this.vm=this.el=this._watcher=this._listeners=null;}};function lifecycleMixin(Vue){ /**
       * Update v-ref for component.
       *
       * @param {Boolean} remove
@@ -2355,7 +2344,7 @@
       * @param {Array} filters
       * @param {Boolean} write
       * @return {*}
-      */Vue.prototype._applyFilters=function(value,oldValue,filters,write){var filter,fn,args,arg,offset,i,l,j,k;for(i=0,l=filters.length;i<l;i++){filter=filters[write?l-i-1:i];fn=resolveAsset(this.$options,'filters',filter.name);if(process.env.NODE_ENV!=='production'){assertAsset(fn,'filter',filter.name);}if(!fn)continue;fn=write?fn.write:fn.read||fn;if(typeof fn!=='function')continue;args=write?[value,oldValue]:[value];offset=write?2:1;if(filter.args){for(j=0,k=filter.args.length;j<k;j++){arg=filter.args[j];args[j+offset]=arg.dynamic?this.$get(arg.value):arg.value;}}value=fn.apply(this,args);}return value;}; /**
+      */Vue.prototype._applyFilters=function(value,oldValue,filters,write){var filter,fn,args,arg,offset,i,l,j,k;for(i=0,l=filters.length;i<l;i++){filter=filters[write?l-i-1:i];fn=resolveAsset(this.$options,'filters',filter.name);if('production'!=='production'){}if(!fn)continue;fn=write?fn.write:fn.read||fn;if(typeof fn!=='function')continue;args=write?[value,oldValue]:[value];offset=write?2:1;if(filter.args){for(j=0,k=filter.args.length;j<k;j++){arg=filter.args[j];args[j+offset]=arg.dynamic?this.$get(arg.value):arg.value;}}value=fn.apply(this,args);}return value;}; /**
       * Resolve a component, depending on whether the component
       * is defined normally or using an async factory function.
       * Resolves synchronously if already resolved, otherwise
@@ -2364,12 +2353,12 @@
       *
       * @param {String|Function} value
       * @param {Function} cb
-      */Vue.prototype._resolveComponent=function(value,cb){var factory;if(typeof value==='function'){factory=value;}else {factory=resolveAsset(this.$options,'components',value);if(process.env.NODE_ENV!=='production'){assertAsset(factory,'component',value);}}if(!factory){return;} // async component factory
+      */Vue.prototype._resolveComponent=function(value,cb){var factory;if(typeof value==='function'){factory=value;}else {factory=resolveAsset(this.$options,'components',value);if('production'!=='production'){}}if(!factory){return;} // async component factory
    if(!factory.options){if(factory.resolved){ // cached
    cb(factory.resolved);}else if(factory.requested){ // pool callbacks
    factory.pendingCallbacks.push(cb);}else {factory.requested=true;var cbs=factory.pendingCallbacks=[cb];factory.call(this,function resolve(res){if(isPlainObject(res)){res=Vue.extend(res);} // cache resolved
    factory.resolved=res; // invoke callbacks
-   for(var i=0,l=cbs.length;i<l;i++){cbs[i](res);}},function reject(reason){process.env.NODE_ENV!=='production'&&warn('Failed to resolve async component'+(typeof value==='string'?': '+value:'')+'. '+(reason?'\nReason: '+reason:''));});}}else { // normal component
+   for(var i=0,l=cbs.length;i<l;i++){cbs[i](res);}},function reject(reason){'production'!=='production'&&warn('Failed to resolve async component'+(typeof value==='string'?': '+value:'')+'. '+(reason?'\nReason: '+reason:''));});}}else { // normal component
    cb(factory);}};}var filterRE$1=/[^|]\|[^|]/;function dataAPI(Vue){ /**
       * Get the value from an expression on this vm.
       *
@@ -2560,7 +2549,7 @@
       *
       * @param {Element|DocumentFragment|string} el
       * @public
-      */Vue.prototype.$mount=function(el){if(this._isCompiled){process.env.NODE_ENV!=='production'&&warn('$mount() should be called only once.');return;}el=query(el);if(!el){el=document.createElement('div');}this._compile(el);this._initDOMHooks();if(inDoc(this.$el)){this._callHook('attached');ready.call(this);}else {this.$once('hook:attached',ready);}return this;}; /**
+      */Vue.prototype.$mount=function(el){if(this._isCompiled){'production'!=='production'&&warn('$mount() should be called only once.');return;}el=query(el);if(!el){el=document.createElement('div');}this._compile(el);this._initDOMHooks();if(inDoc(this.$el)){this._callHook('attached');ready.call(this);}else {this.$once('hook:attached',ready);}return this;}; /**
       * Mark an instance as ready.
       */function ready(){this._isAttached=true;this._isReady=true;this._callHook('ready');} /**
       * Teardown the instance, simply delegate to the internal
@@ -2596,7 +2585,7 @@
    // inject fallback content as the v-else
    var elseBlock=document.createElement('template');elseBlock.setAttribute('v-else','');elseBlock.innerHTML=this.el.innerHTML; // the else block should be compiled in child scope
    elseBlock._context=this.vm;content.appendChild(elseBlock);}var scope=host?host._scope:this._scope;this.unlink=context.$compile(content,host,scope,this._frag);}if(content){replace(this.el,content);}else {remove(this.el);}},fallback:function fallback(){this.compile(extractContent(this.el,true),this.vm);},unbind:function unbind(){if(this.unlink){this.unlink();}}};var partial={priority:PARTIAL,params:['name'], // watch changes to name for dynamic partials
-   paramWatchers:{name:function name(value){vIf.remove.call(this);if(value){this.insert(value);}}},bind:function bind(){this.anchor=createAnchor('v-partial');replace(this.el,this.anchor);this.insert(this.params.name);},insert:function insert(id){var partial=resolveAsset(this.vm.$options,'partials',id);if(process.env.NODE_ENV!=='production'){assertAsset(partial,'partial',id);}if(partial){this.factory=new FragmentFactory(this.vm,partial);vIf.insert.call(this);}},unbind:function unbind(){if(this.frag){this.frag.destroy();}}};var elementDirectives={slot:slot,partial:partial};var convertArray=vFor._postProcess; /**
+   paramWatchers:{name:function name(value){vIf.remove.call(this);if(value){this.insert(value);}}},bind:function bind(){this.anchor=createAnchor('v-partial');replace(this.el,this.anchor);this.insert(this.params.name);},insert:function insert(id){var partial=resolveAsset(this.vm.$options,'partials',id);if('production'!=='production'){}if(partial){this.factory=new FragmentFactory(this.vm,partial);vIf.insert.call(this);}},unbind:function unbind(){if(this.frag){this.frag.destroy();}}};var elementDirectives={slot:slot,partial:partial};var convertArray=vFor._postProcess; /**
     * Limit filter for arrays
     *
     * @param {Number} n
@@ -2673,7 +2662,7 @@
       * Class inheritance
       *
       * @param {Object} extendOptions
-      */Vue.extend=function(extendOptions){extendOptions=extendOptions||{};var Super=this;var isFirstExtend=Super.cid===0;if(isFirstExtend&&extendOptions._Ctor){return extendOptions._Ctor;}var name=extendOptions.name||Super.options.name;if(process.env.NODE_ENV!=='production'){if(!/^[a-zA-Z][\w-]*$/.test(name)){warn('Invalid component name: "'+name+'". Component names '+'can only contain alphanumeric characaters and the hyphen.');name=null;}}var Sub=createClass(name||'VueComponent');Sub.prototype=Object.create(Super.prototype);Sub.prototype.constructor=Sub;Sub.cid=cid++;Sub.options=mergeOptions(Super.options,extendOptions);Sub['super']=Super; // allow further extension
+      */Vue.extend=function(extendOptions){extendOptions=extendOptions||{};var Super=this;var isFirstExtend=Super.cid===0;if(isFirstExtend&&extendOptions._Ctor){return extendOptions._Ctor;}var name=extendOptions.name||Super.options.name;if('production'!=='production'){}var Sub=createClass(name||'VueComponent');Sub.prototype=Object.create(Super.prototype);Sub.prototype.constructor=Sub;Sub.cid=cid++;Sub.options=mergeOptions(Super.options,extendOptions);Sub['super']=Super; // allow further extension
    Sub.extend=Super.extend; // create asset registers, so extended classes
    // can have their private assets too.
    config._assetTypes.forEach(function(type){Sub[type]=Super[type];}); // enable recursive self-lookup
@@ -2699,9 +2688,9 @@
       *
       * @param {String} id
       * @param {*} definition
-      */config._assetTypes.forEach(function(type){Vue[type]=function(id,definition){if(!definition){return this.options[type+'s'][id];}else { /* istanbul ignore if */if(process.env.NODE_ENV!=='production'){if(type==='component'&&(commonTagRE.test(id)||reservedTagRE.test(id))){warn('Do not use built-in or reserved HTML elements as component '+'id: '+id);}}if(type==='component'&&isPlainObject(definition)){definition.name=id;definition=Vue.extend(definition);}this.options[type+'s'][id]=definition;return definition;}};}); // expose internal transition API
+      */config._assetTypes.forEach(function(type){Vue[type]=function(id,definition){if(!definition){return this.options[type+'s'][id];}else { /* istanbul ignore if */if('production'!=='production'){}if(type==='component'&&isPlainObject(definition)){definition.name=id;definition=Vue.extend(definition);}this.options[type+'s'][id]=definition;return definition;}};}); // expose internal transition API
    extend(Vue.transition,transition);}installGlobalAPI(Vue);Vue.version='1.0.20'; // devtools global hook
-   /* istanbul ignore next */if(config.devtools){if(devtools){devtools.emit('init',Vue);}else if(process.env.NODE_ENV!=='production'&&inBrowser&&/Chrome\/\d+/.test(window.navigator.userAgent)){console.log('Download the Vue Devtools for a better development experience:\n'+'https://github.com/vuejs/vue-devtools');}}module.exports=Vue;
+   /* istanbul ignore next */if(config.devtools){if(devtools){devtools.emit('init',Vue);}else if('production'!=='production'&&inBrowser&&/Chrome\/\d+/.test(window.navigator.userAgent)){}}module.exports=Vue;
    });
 
    function forTest(foo) {
