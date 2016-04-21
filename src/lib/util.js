@@ -23,6 +23,7 @@ function getVueFor(node) {
       ? {vueFor: {[inMatch[2].trim()]: []}, name: inMatch[1].trim(), key: inMatch[2].trim() }
       : {vueFor: null, name: null, key: null}
 }
+
 function DOMTreeWalker(DOMNode, vueData = {}, scope = []) {
     const vueText = getVueText(DOMNode)
     const {vueFor, name, key} = getVueFor(DOMNode)
@@ -40,4 +41,4 @@ function DOMTreeWalker(DOMNode, vueData = {}, scope = []) {
     return Object.assign(vueData, vueText)
 }
 
-export DOMTreeWalker
+export {DOMTreeWalker}
